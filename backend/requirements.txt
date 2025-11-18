@@ -1,0 +1,17 @@
+fastapi
+uvicorn[standard]
+sqlalchemy[asyncio]
+asyncpg
+pydantic[email]
+pydantic
+pydantic-settings
+passlib>=1.7.4
+bcrypt==4.1.3
+python-jose[cryptography]
+python-dotenv
+alembic
+httpx
+google-generativeai
+PyPDF2
+python-multipart
+greenlet

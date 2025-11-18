@@ -1,0 +1,53 @@
+
+services:
+  # -----------------
+  # Backend Service
+  # -----------------
+  backend:
+    build:
+      context: ./backend  # Path to the backend Dockerfile
+    image: skillsync-backend
+    container_name: skillsync-backend
+    # We must pass the DATABASE_URL to our container
+    environment:
+      # This connects to your *local* machine's Postgres, NOT another container
+      # 'host.docker.internal' is a special DNS name that lets the container
+      # access the host machine (your computer)
+      DATABASE_URL: postgresql+asyncpg://postgres:lokiabc123@host.docker.internal:5432/skillsync
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY} # We'll pass this in
+    ports:
+      - "8000:8000" # Map container port 8000 to host port 8000
+    volumes:
+      # This volume makes hot-reloading work inside the container
+      # Optional: only for development
+      - ./backend:/app
+    
+
+  # -----------------
+  # Frontend Service
+  # -----------------
+  frontend:
+    build:
+      context: ./frontend # Path to the frontend Dockerfile
+    image: skillsync-frontend
+    container_name: skillsync-frontend
+    ports:
+      - "80:80" # Map container port 80 (Nginx) to host port 80
+    depends_on:
+      - backend # Make sure the backend starts first
+
+  # -----------------
+  # DB Service (Optional)
+  # -----------------
+  # We are using 'host.docker.internal' to connect to your existing
+  # 'skillsync-postgres' container, but if you wanted to run the DB
+  # as part of this compose stack, you would uncomment this.
+  
+  # db:
+  #   image: postgres:16
+  #   container_name: skillsync-postgres-compose
+  #   environment:
+  #     POSTGRES_PASSWORD: your_password
+  #     POSTGRES_DB: skillsync
+  #   ports:
+  #     - "5432:5432"

@@ -1,0 +1,14 @@
+/* Import the Inter font from Google Fonts (as per your guide) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+/* Tailwind directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* A simple global style for our app */
+@layer base {
+  body {
+    @apply font-sans antialiased bg-white text-dark-900;
+  }
+}
